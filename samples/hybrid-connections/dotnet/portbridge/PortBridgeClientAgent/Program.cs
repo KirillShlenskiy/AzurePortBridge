@@ -5,7 +5,6 @@ namespace PortBridgeClientAgent
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Net;
     using PortBridge;
 
@@ -20,110 +19,21 @@ namespace PortBridgeClientAgent
         
         static void Main(string[] args)
         {
-            PrintLogo();
-
-            PortBridgeAgentSection settings = ConfigurationManager.GetSection("portBridgeAgent") as PortBridgeAgentSection;
-            if (settings != null)
-            {
-                serviceNamespace = settings.ServiceNamespace;
-                accessRuleName = settings.AccessRuleName;
-                accessRuleKey = settings.AccessRuleKey;
-            }
-
-            if (!ParseCommandLine(args))
-            {
-                PrintUsage();
-                return;
-            }
+            accessRuleKey = args[0];
 
             PortBridgeClientForwarderHost host = new PortBridgeClientForwarderHost();
-            if (settings != null && settings.PortMappings.Count > 0)
-            {
-                foreach (PortMappingElement mapping in settings.PortMappings)
-                {
-                    List<IPRange> firewallRules = new List<IPRange>();
-                    if (mapping.FirewallRules != null && mapping.FirewallRules.Count > 0)
-                    {
-                        foreach (FirewallRuleElement rule in mapping.FirewallRules)
-                        {
-                            if (!string.IsNullOrEmpty(rule.SourceRangeBegin) &&
-                                !string.IsNullOrEmpty(rule.SourceRangeEnd))
-                            {
-                                firewallRules.Add(new IPRange(IPAddress.Parse(rule.SourceRangeBegin), IPAddress.Parse(rule.SourceRangeEnd)));
-                            }
-                            else if (!string.IsNullOrEmpty(rule.Source))
-                            {
-                                firewallRules.Add(new IPRange(IPAddress.Parse(rule.Source)));
-                            }
-                        }
-                    }
-
-                    if (mapping.LocalTcpPort.HasValue)
-                    {
-                        if (!string.IsNullOrEmpty(mapping.LocalPipe) ||
-                            !string.IsNullOrEmpty(mapping.RemotePipe))
-                        {
-                            throw new ConfigurationErrorsException(
-                                string.Format("LocalTcpPort {0} defined with incompatible other settings", mapping.LocalTcpPort.Value));
-                        }
-                        if (!mapping.RemoteTcpPort.HasValue)
-                        {
-                            throw new ConfigurationErrorsException(
-                                string.Format("LocalTcpPort {0} does not have a matching RemoteTcpPort defined", mapping.LocalTcpPort.Value));
-                        }
-
-                        host.Forwarders.Add(
-                            new TcpClientConnectionForwarder(
-                                serviceNamespace,
-                                accessRuleName,
-                                accessRuleKey,
-                                mapping.TargetHost,
-                                mapping.LocalTcpPort.Value,
-                                mapping.RemoteTcpPort.Value,
-                                mapping.BindTo,
-                                firewallRules));
-                    }
-
-                    if (!string.IsNullOrEmpty(mapping.LocalPipe))
-                    {
-                        if (mapping.LocalTcpPort.HasValue ||
-                            mapping.RemoteTcpPort.HasValue)
-                        {
-                            throw new ConfigurationErrorsException(
-                                string.Format("LocalPipe {0} defined with incompatible other settings", mapping.LocalPipe));
-                        }
-                        if (string.IsNullOrEmpty(mapping.RemotePipe))
-                        {
-                            throw new ConfigurationErrorsException(
-                                string.Format("LocalPipe {0} does not have a matching RemotePipe defined", mapping.LocalPipe));
-                        }
-
-                        host.Forwarders.Add(
-                            new NamedPipeClientConnectionForwarder(
-                                serviceNamespace,
-                                accessRuleName,
-                                accessRuleKey,
-                                mapping.TargetHost,
-                                mapping.LocalPipe,
-                                mapping.RemotePipe));
-                    }
-                }
-            }
-            else
-            {
-                List<IPRange> firewallRules = new List<IPRange>();
-                firewallRules.Add(new IPRange(IPAddress.Loopback));
-                host.Forwarders.Add(
-                    new TcpClientConnectionForwarder(
-                        serviceNamespace,
-                        accessRuleName,
-                        accessRuleKey,
-                        cmdlineTargetHost,
-                        fromPort,
-                        toPort,
-                        null,
-                        firewallRules));
-            }
+            List<IPRange> firewallRules = new List<IPRange>();
+            firewallRules.Add(new IPRange(IPAddress.Any, IPAddress.Broadcast));
+            host.Forwarders.Add(
+                new TcpClientConnectionForwarder(
+                    serviceNamespace,
+                    accessRuleName,
+                    accessRuleKey,
+                    cmdlineTargetHost,
+                    fromPort,
+                    toPort,
+                    null,
+                    firewallRules));
 
             host.Open();
             Console.WriteLine("Press [ENTER] to exit.");
