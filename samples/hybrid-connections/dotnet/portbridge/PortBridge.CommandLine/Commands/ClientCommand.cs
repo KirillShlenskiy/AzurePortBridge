@@ -11,30 +11,27 @@ namespace PortBridge.CommandLine.Commands
     {
         public override int Execute([NotNull] CommandContext context, [NotNull] ClientCommandSettings settings)
         {
-            var host = new PortBridgeClientForwarderHost();
-
             var firewallRules = new[]
             {
                 new IPRange(IPAddress.Any, IPAddress.Broadcast)
             };
 
-            host.Forwarders.Add(
-                new TcpClientConnectionForwarder(
-                    settings.ServiceNamespace,
-                    settings.AccessRuleName,
-                    settings.AccessRuleKey,
-                    settings.ConnectionName,
-                    settings.LocalPort,
-                    settings.RemotePort,
-                    null,
-                    firewallRules));
+            using var client = new TcpClientConnectionForwarder(
+                settings.ServiceNamespace,
+                settings.AccessRuleName,
+                settings.AccessRuleKey,
+                settings.ConnectionName,
+                settings.LocalPort,
+                settings.RemotePort,
+                null,
+                firewallRules);
 
-            host.Open();
+            client.Open();
 
             Console.WriteLine("Press [ENTER] to exit.");
             Console.ReadLine();
 
-            host.Close();
+            client.Close();
 
             return 0;
         }

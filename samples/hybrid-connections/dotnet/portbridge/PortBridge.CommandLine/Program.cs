@@ -1,11 +1,12 @@
-﻿using PortBridge.CommandLine.Commands;
+﻿using System.Threading.Tasks;
+using PortBridge.CommandLine.Commands;
 using Spectre.Console.Cli;
 
 namespace PortBridge.CommandLine
 {
     class Program
     {
-        static int Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             var commandApp = new CommandApp();
 
@@ -19,7 +20,7 @@ namespace PortBridge.CommandLine
                 app.AddCommand<ClientCommand>("client");
             });
 
-            return commandApp.Run(args);
+            return await commandApp.RunAsync(args);
         }
     }
 }
