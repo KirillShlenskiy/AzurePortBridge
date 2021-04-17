@@ -16,8 +16,7 @@ namespace PortBridge.CommandLine.Commands
                 settings.AccessRuleKey,
                 "localhost",
                 settings.ConnectionName,
-                settings.Port.ToString(),
-                string.Empty);
+                settings.Port.ToString());
 
             await server.OpenService();
 
