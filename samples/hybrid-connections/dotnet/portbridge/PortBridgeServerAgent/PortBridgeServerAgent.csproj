@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.38.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PortBridge\PortBridge.csproj" />
   </ItemGroup>
 

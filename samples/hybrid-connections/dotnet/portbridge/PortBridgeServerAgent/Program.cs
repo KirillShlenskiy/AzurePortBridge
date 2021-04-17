@@ -1,35 +1,28 @@
-﻿namespace PortBridgeServerAgent
-{
-    using System;
-    using PortBridge;
+﻿using Spectre.Console.Cli;
 
+namespace PortBridgeServerAgent
+{
     class Program
     {
-        static string serviceNamespace;
-        static string accessRuleName;
-        static string accessRuleKey;
-        static string permittedPorts;
-
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            accessRuleKey = args[0];
+            if (args.Length == 0)
+            {
+                args = new[] { "--help" };
+            }
 
-            PortBridgeServiceForwarderHost host = new PortBridgeServiceForwarderHost();
+            var commandApp = new CommandApp();
 
-            host.Forwarders.Add(
-                new ServiceConnectionForwarder(
-                    serviceNamespace,
-                    accessRuleName,
-                    accessRuleKey,
-                    "localhost",
-                    "kirkinputer",
-                    permittedPorts,
-                    string.Empty));
+            commandApp.SetDefaultCommand<RunCommand>();
 
-            host.Open();
-            Console.WriteLine("Press [ENTER] to exit.");
-            Console.ReadLine();
-            host.Close();
+            commandApp.Configure(app =>
+            {
+                app.SetApplicationName("PortBridgeServerAgent");
+                app.UseStrictParsing();
+                app.PropagateExceptions();
+            });
+
+            return commandApp.Run(args);
         }
     }
 }
