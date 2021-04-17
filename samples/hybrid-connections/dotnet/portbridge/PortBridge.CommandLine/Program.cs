@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using PortBridge.CommandLine.Commands;
 using Spectre.Console.Cli;
 
@@ -8,6 +9,8 @@ namespace PortBridge.CommandLine
     {
         static async Task<int> Main(string[] args)
         {
+            Trace.Listeners.Add(new ConsoleTraceListener());
+
             var commandApp = new CommandApp();
 
             commandApp.Configure(app =>
