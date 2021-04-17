@@ -1,4 +1,5 @@
-﻿using Spectre.Console.Cli;
+﻿using PortBridge.CommandLine.Commands;
+using Spectre.Console.Cli;
 
 namespace PortBridge.CommandLine
 {

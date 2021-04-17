@@ -3,14 +3,14 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Spectre.Console.Cli;
 
-namespace PortBridge.CommandLine
+namespace PortBridge.CommandLine.Commands
 {
     [Description("Forwards a port on the local machine (or reachable machine on the local network) via Azure Relay")]
     public sealed class ServerCommand : Command<ServerCommandSettings>
     {
         public override int Execute([NotNull] CommandContext context, [NotNull] ServerCommandSettings settings)
         {
-            PortBridgeServiceForwarderHost host = new PortBridgeServiceForwarderHost();
+            var host = new PortBridgeServiceForwarderHost();
 
             host.Forwarders.Add(
                 new ServiceConnectionForwarder(

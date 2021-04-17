@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using Spectre.Console.Cli;
 
-namespace PortBridge.CommandLine
+namespace PortBridge.CommandLine.Commands
 {
-    public sealed class ClientCommandSettings : CommandSettings
+    public sealed class ServerCommandSettings : CommandSettings
     {
         [CommandOption("-n|--service-namespace")]
         [Description("Fully qualified service namespace (i.e. xxx.servicebus.windows.net")]
@@ -22,12 +22,8 @@ namespace PortBridge.CommandLine
         [Description("Name of the hybrid connection/host")]
         public string ConnectionName { get; set; }
 
-        [CommandOption("-l|--local-port")]
-        [Description("Local port to listen on")]
-        public int LocalPort { get; set; }
-
-        [CommandOption("-r|--remote-port")]
-        [Description("Remote port to forward")]
-        public int RemotePort { get; set; }
+        [CommandOption("-p|--port")]
+        [Description("Port to forward")]
+        public int Port { get; set; }
     }
 }
