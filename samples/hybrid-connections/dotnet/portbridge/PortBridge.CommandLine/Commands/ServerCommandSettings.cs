@@ -6,7 +6,7 @@ namespace PortBridge.CommandLine.Commands
     public sealed class ServerCommandSettings : CommandSettings
     {
         [CommandOption("-n|--service-namespace")]
-        [Description("Fully qualified service namespace (i.e. xxx.servicebus.windows.net")]
+        [Description("Fully qualified service namespace (i.e. xxx.servicebus.windows.net)")]
         public string ServiceNamespace { get; set; }
 
         [CommandOption("-a|--access-rule-name")]
@@ -23,7 +23,7 @@ namespace PortBridge.CommandLine.Commands
         public string ConnectionName { get; set; }
 
         [CommandOption("-p|--port")]
-        [Description("Port to forward")]
+        [Description("Local port to publish via Azure Relay")]
         public int Port { get; set; }
     }
 }
