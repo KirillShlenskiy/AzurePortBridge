@@ -1,25 +1,25 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-namespace PortBridgeClientAgent
+namespace PortBridge.CommandLine
 {
     using System.Collections.Generic;
     using PortBridge;
 
-    class PortBridgeClientForwarderHost
+    class PortBridgeServiceForwarderHost
     {
-        public PortBridgeClientForwarderHost()
+        public PortBridgeServiceForwarderHost()
         {
-            Forwarders = new List<IClientConnectionForwarder>();
+            Forwarders = new List<ServiceConnectionForwarder>();
         }
 
-        public List<IClientConnectionForwarder> Forwarders { get; }
+        public List<ServiceConnectionForwarder> Forwarders { get; }
 
         public void Open()
         {
             foreach (var forwarder in Forwarders)
             {
-                forwarder.Open();
+                forwarder.OpenService();
             }
         }
 
@@ -27,7 +27,7 @@ namespace PortBridgeClientAgent
         {
             foreach (var forwarder in Forwarders)
             {
-                forwarder.Close();
+                forwarder.CloseService();
             }
         }
     }

@@ -1,13 +1,14 @@
-﻿using PortBridge;
-using Spectre.Console.Cli;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using Spectre.Console.Cli;
 
-namespace PortBridgeServerAgent
+namespace PortBridge.CommandLine
 {
-    public sealed class RunCommand : Command<RunSettings>
+    [Description("Forwards a port on the local machine (or reachable machine on the local network) via Azure Relay")]
+    public sealed class ServerCommand : Command<ServerCommandSettings>
     {
-        public override int Execute([NotNull] CommandContext context, [NotNull] RunSettings settings)
+        public override int Execute([NotNull] CommandContext context, [NotNull] ServerCommandSettings settings)
         {
             PortBridgeServiceForwarderHost host = new PortBridgeServiceForwarderHost();
 
