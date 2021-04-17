@@ -5,12 +5,10 @@ namespace PortBridgeServerAgent
 {
     using System;
     using System.Configuration;
-    using System.ServiceProcess;
     using PortBridge;
 
     class Program
     {
-        static bool runOnConsole;
         static string serviceNamespace;
         static string accessRuleName;
         static string accessRuleKey;
@@ -78,36 +76,10 @@ namespace PortBridgeServerAgent
                         string.Empty));
             }
 
-
-            if (!runOnConsole)
-            {
-                ServiceController sc = new ServiceController("PortBridgeService");
-                try
-                {
-                    var status = sc.Status;
-                }
-                catch (SystemException)
-                {
-                    runOnConsole = true;
-                }
-            }
-
-            if (runOnConsole)
-            {
-                host.Open();
-                Console.WriteLine("Press [ENTER] to exit.");
-                Console.ReadLine();
-                host.Close();
-            }
-            else
-            {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[]
-                {
-                    new PortBridgeService(host)
-                };
-                ServiceBase.Run(ServicesToRun);
-            }
+            host.Open();
+            Console.WriteLine("Press [ENTER] to exit.");
+            Console.ReadLine();
+            host.Close();
         }
 
         static void PrintUsage()
@@ -143,7 +115,6 @@ namespace PortBridgeServerAgent
                         {
                             case 'c':
                             case 'C':
-                                runOnConsole = true;
                                 lastOpt = default(char);
                                 break;
                         }

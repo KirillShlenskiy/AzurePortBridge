@@ -46,10 +46,6 @@ namespace PortBridge
         {
             try
             {
-                PipeSecurity pipeSecurity = new PipeSecurity();
-                // deny network access, allow read/write to everyone locally and the owner/creator
-                pipeSecurity.SetSecurityDescriptorSddlForm("D:(D;;FA;;;NU)(A;;0x12019f;;;WD)(A;;0x12019f;;;CO)");
-
                 NamedPipeServerStream pipeListener =
                     new NamedPipeServerStream(
                         localPipe,
@@ -58,8 +54,8 @@ namespace PortBridge
                         PipeTransmissionMode.Message,
                         PipeOptions.Asynchronous,
                         4096,
-                        4096,
-                        pipeSecurity);
+                        4096);
+
                 pipeListener.BeginWaitForConnection(ClientAccepted, pipeListener);
             }
             catch (Exception ex)

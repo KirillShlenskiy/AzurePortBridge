@@ -7,12 +7,10 @@ namespace PortBridgeClientAgent
     using System.Collections.Generic;
     using System.Configuration;
     using System.Net;
-    using System.ServiceProcess;
     using PortBridge;
 
     class Program
     {
-        static bool runOnConsole;
         static int fromPort = -1;
         static int toPort = -1;
         static string serviceNamespace;
@@ -127,35 +125,10 @@ namespace PortBridgeClientAgent
                         firewallRules));
             }
 
-            if (!runOnConsole)
-            {
-                ServiceController sc = new ServiceController("PortBridgeAgentService");
-                try
-                {
-                    var status = sc.Status;
-                }
-                catch (SystemException)
-                {
-                    runOnConsole = true;
-                }
-            }
-
-            if (runOnConsole)
-            {
-                host.Open();
-                Console.WriteLine("Press [ENTER] to exit.");
-                Console.ReadLine();
-                host.Close();
-            }
-            else
-            {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[]
-                {
-                    new PortBridgeAgentService(host)
-                };
-                ServiceBase.Run(ServicesToRun);
-            }
+            host.Open();
+            Console.WriteLine("Press [ENTER] to exit.");
+            Console.ReadLine();
+            host.Close();
         }
 
         static void PrintUsage()
@@ -192,7 +165,6 @@ namespace PortBridgeClientAgent
                         {
                             case 'c':
                             case 'C':
-                                runOnConsole = true;
                                 lastOpt = default(char);
                                 break;
                         }
