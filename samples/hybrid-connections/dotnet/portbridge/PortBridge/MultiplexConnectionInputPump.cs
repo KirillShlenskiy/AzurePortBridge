@@ -10,6 +10,7 @@ namespace PortBridge
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public class MultiplexConnectionInputPump
     {
@@ -54,18 +55,19 @@ namespace PortBridge
         public void Run(bool completeSynchronously)
         {
             // read from delegate
-            bufferRead.BeginInvoke(preambleBuffer, 0, preambleBuffer.Length, DoneReadingPreamble, null);
+            Task.Run(() => bufferRead(preambleBuffer, 0, preambleBuffer.Length)).ContinueWith(DoneReadingPreamble);
+
             if (completeSynchronously)
             {
                 stopInput.WaitOne();
             }
         }
 
-        public void DoneReadingPreamble(IAsyncResult readOutputAsyncResult)
+        public void DoneReadingPreamble(Task<int> readOutputAsyncResult)
         {
             try
             {
-                int bytesRead = bufferRead.EndInvoke(readOutputAsyncResult);
+                int bytesRead = readOutputAsyncResult.GetAwaiter().GetResult();
                 if (bytesRead > 0)
                 {
                     if (bytesRead < preambleBuffer.Length)
@@ -164,7 +166,7 @@ namespace PortBridge
 
                     if (!stopped)
                     {
-                        bufferRead.BeginInvoke(preambleBuffer, 0, preambleBuffer.Length, DoneReadingPreamble, null);
+                        Task.Run(() => bufferRead(preambleBuffer, 0, preambleBuffer.Length)).ContinueWith(DoneReadingPreamble);
                     }
                 }
                 else
