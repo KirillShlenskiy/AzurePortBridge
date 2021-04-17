@@ -11,7 +11,7 @@ namespace PortBridge.CommandLine
 
             commandApp.Configure(app =>
             {
-                app.SetApplicationName("PortBridgeClientAgent");
+                app.SetApplicationName("azure-relay");
                 app.UseStrictParsing();
                 app.PropagateExceptions();
 
