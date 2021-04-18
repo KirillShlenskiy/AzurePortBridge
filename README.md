@@ -1,21 +1,7 @@
-﻿<p align="center">
-  <img src="relay.png" alt="Microsoft Azure Relay" width="100"/>
-</p>
+﻿# Azure Port Bridge (fork)
 
-# Microsoft Azure Relay
+This is a gutted version of one of the samples from the [Azure Relay repository](https://github.com/azure/azure-relay), PortBridge.
 
-To learn more about Azure Relay, visit the [landing page](https://azure.microsoft.com/services/service-bus/).
+The aim was to provide an easy-to-use command-line interface which makes it quick and easy to forward a local port via the Azure Relay service.
 
-This repository is intended to be used for:
-
-* [Reporting Service side issues and feature requests](https://github.com/azure/azure-relay/issues)
-* [Reporting Documentation issues](https://github.com/azure/azure-relay/issues)
-* [Samples](./samples)
-
-If you are looking for the code of specific client library, follow these links:
-* [.NET](https://github.com/azure/azure-relay-dotnet)
-* [.Node](https://github.com/azure/azure-relay-node)
-
-## How to provide feedback
-
-See the [Contribution Guidelines](./.github/CONTRIBUTING.md).
+The work inside the PortBridge project is not my own. I've kept the tweaks to a minimum, only changing what was necessary to get PortBridge running on .NET Core.
