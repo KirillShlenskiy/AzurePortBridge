@@ -5,15 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortBridge", "PortBridge\PortBridge.csproj", "{70015950-78EB-4808-9645-1A04DCC2DAB8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3F93235-8D92-4249-85FB-69761A6AE757}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE.md = LICENSE.md
-		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{957F15CB-5439-4C95-9AF6-0CED6291041E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortBridge.CommandLine", "PortBridge.CommandLine\PortBridge.CommandLine.csproj", "{E155EE80-21C4-462C-BA04-27A97C5F6926}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortBridge.CommandLine", "PortBridge.CommandLine\PortBridge.CommandLine.csproj", "{E155EE80-21C4-462C-BA04-27A97C5F6926}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
